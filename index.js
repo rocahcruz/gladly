@@ -25,9 +25,9 @@ window.addEventListener('load', function() {
     //startCounter(); // time spent in room
 
     // by default, socket.io server is assumed to be deployed on your own URL
-    //connection.socketURL = '/';
+    connection.socketURL = '/';
     // comment-out below line if you do not have your own socket.io server
-    connection.socketURL = 'https://rtcmulticonnection.herokuapp.com:443/';
+    //connection.socketURL = 'https://rtcmulticonnection.herokuapp.com:443/';
 
     connection.socketMessageEvent = 'audio-video-file-chat';
     connection.enableFileSharing = true; // by default, it is "false".
