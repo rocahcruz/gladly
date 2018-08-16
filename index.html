@@ -1,0 +1,136 @@
+<!-- Demo Skype-like system by Rocah Cruz-->
+<!-- @Rocah Cruz <careytaylor138@gmail.com> -->
+<!-- 16 - 08 - 2018 -->
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <title>Gladly</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="favicon.ico">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome-animation/0.0.8/font-awesome-animation.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <!-- Custom styles -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header>
+        <nav class="navbar navbar-inverse">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span> 
+          </button>
+                    <a class="navbar-brand" href="#">Gladly</a>
+                </div>
+                <div class="collapse navbar-collapse" id="myNavbar">
+                    <ul class="nav navbar-nav">
+                        <li class="active"><a href="#">RoCah</a></li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="dropdown users-list">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#" title="Display all online users, press to view each">
+                                <span class="glyphicon glyphicon-user" style="color:greenyellow;"></span> Users <span class="numbers-of-users" style="color: lawngreen;">0</span>
+                                <span class="caret"></span>
+                            </a>
+                            <ul id="dropdown-menu" class="dropdown-menu">
+                                <li>
+                                    <a href="#">Moderator</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <button class="btn btn-danger navbar-btn" id="btn-leave-room" title="Leave/Close the current open or joined room" disabled><span class="glyphicon glyphicon-log-out"></span> Leave/Close Room</button>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <section class="text-center">
+        <div id="room-urls" class="unique-url"></div>
+        <div class="row margin-top-20">
+            <!-- Timer -->
+            <div class="col-sm-12 text-center margin-top-5" style="color:#fff">
+                <span id="countHr"></span>h:
+                <span id="countMin"></span>m:
+                <span id="countSec"></span>s
+            </div>
+            <!-- Timer -->
+        </div>
+        <div class="input-group make-center" style="width: 200px;">
+            <span class="input-group-addon" title="Enter a room id, can be a name or number or email"><i class="glyphicon glyphicon-pencil"></i></span>
+            <input id="room-id" type="text" value="test" class="form-control" autocorrect=off autocapitalize=off style="width: 150px;">
+            <span class="input-group-addon make-center" title="Enter a username, optional but recommended"><i class="glyphicon glyphicon-user"></i></span>
+            <input id="your-name" type="text" placeholder="(Optional)" class="form-control" autocorrect=off autocapitalize=off style="width: 250px;">
+        </div>
+        <br>
+        <button class="btn btn-default" id="open-room" title="Open a room with the id above"><span class="glyphicon glyphicon-log-in"></span> Open Room</button>
+        <button class="btn btn-default" id="join-room" title="Join an open room with its id"><span class="glyphicon glyphicon-check"></span> Join Room</button>
+        <button class="btn btn-default" id="open-or-join-room" title="Join/Open any random room id">Auto Open Or Join Room</button>
+        <br><br>
+
+        <div id="videos-container"></div>
+    </section>
+
+    <div class="container-fluid chat-pane">
+        <!-- CHAT PANEL-->
+        <div class="row chat-window col-xs-12 col-md-4">
+            <div class="">
+                <div class="panel panel-default chat-pane-panel">
+                    <div class="panel-heading chat-pane-top-bar">
+                        <div class="col-xs-10" style="margin-left:-20px">
+                            <i class="fa fa-comment" id="remoteStatus"></i> Remote
+                            <b id="remoteStatusTxt">(Offline)</b>
+                        </div>
+                        <div class="col-xs-2 pull-right">
+                            <span id="minim_chat_window" class="panel-collapsed fa fa-plus icon_minim pointer"></span>
+                        </div>
+                    </div>
+
+                    <div class="panel-body msg_container_base" id="chats"></div>
+
+                    <div class="panel-footer">
+                        <div id="file-container"></div>
+                        <span id="typingInfo"></span>
+                        <div class="input-group">
+                            <input type="text" id="input-text-chat" class="form-control input-sm chat_input" placeholder="Type message here..." disabled>
+                            <span class="input-group-btn"><button class="btn btn-default btn-sm" id="share-file" title="Share files with other online users" disabled><i class="glyphicon glyphicon-paperclip"></i></button>
+                                </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- CHAT PANEL -->
+    </div>
+
+    <!--Snackbar -->
+    <div id="snackbar"></div>
+    <!-- Snackbar -->
+
+    <script src="https://rawgit.com/muaz-khan/RTCMultiConnection/master/dist/RTCMultiConnection.min.js"></script>
+    <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js"></script>
+
+    <!-- custom layout for HTML5 audio/video elements -->
+    <link rel="stylesheet" href="https://rtcmulticonnection.herokuapp.com/dev/getHTMLMediaElement.css">
+    <script src="https://rtcmulticonnection.herokuapp.com/dev/getHTMLMediaElement.js"></script>
+
+    <script src="https://cdn.webrtc-experiment.com/FileBufferReader.js"></script>
+
+    <!-- Custom js and engine. -->
+    <script src="index.js"></script>
+    <audio id="msgTone" src="msgtone.mp3" preload="auto"></audio>
+</body>
+
+</html>
